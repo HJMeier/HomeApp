@@ -1,1 +1,58 @@
-<p>task-item works!</p>
+<input (keyup.enter)="createTaskItem(title)" #title
+       type="text" class="form-control">
+
+<table class="table table-dark">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Task</th>
+      <th scope="col">Category</th>
+      <th scope="col">Due date</th>
+      <th scope="col">State</th>
+      <th scope="col">Series</th>
+      <th scope="col">Update</th>
+      <th scope="col">Delete</th>
+    </tr>
+
+  </thead>
+  <tbody>
+    <tr *ngFor="let taskItem of taskItems">
+      <th scope="row">{{taskItem.id}}</th>
+      <td>{{taskItem.title}}</td>
+      <td>single Task</td>
+      <td>{{taskItem.id}}.{{taskItem.id + 1}}.202{{taskItem.id}}</td>
+      <td>open</td>
+      <td>no</td>
+      <td>
+        <button (click)="updateTaskItem(taskItem)"
+                class="btn-primary btn-default btn-sm">
+          Update
+        </button>
+      </td>
+      <td>
+        <button (click)="deleteTaskItem(taskItem)"
+                class="btn-primary btn-default btn-sm">
+          Delete
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!--
+<ul class="list-group">
+  <li *ngFor="let taskItem of taskItems"
+      class="list-group-item">
+    <button (click)="updateTaskItem(taskItem)"
+            class="btn-primary btn-default btn-sm">
+      Update
+    </button>
+
+    <button (click)="deleteTaskItem(taskItem)"
+            class="btn-primary btn-default btn-sm">
+      Delete
+    </button>
+    {{taskItem.title}}
+  </li>
+</ul>
+  -->
