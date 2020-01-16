@@ -11,6 +11,8 @@ import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { TaskItemComponent } from './components/task-item/task-item.component';
 
+import { TaskItemService } from './services/task-item.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,7 +33,7 @@ import { TaskItemComponent } from './components/task-item/task-item.component';
       { path: 'task-items', component: TaskItemComponent },
     ])
   ],
-  providers: [],
+  providers: [TaskItemService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

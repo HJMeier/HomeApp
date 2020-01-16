@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { TaskItemService } from '../../services/task-item.service';
 
 @Component({
   selector: 'app-task-item',
@@ -8,19 +8,16 @@ import { HttpClient } from '@angular/common/http';
 })
 export class TaskItemComponent implements OnInit {
   taskItems: any[];
-  private url = 'https://jsonplaceholder.typicode.com/posts';
 
-  constructor(private http: HttpClient) {
-    http.get(this.url)
-      .subscribe(response => {
-        this.taskItems = response;
-      })
+  constructor(private service: TaskItemService) { //separation of concerns -> not directly use http here...
+    // no call of http services in constructor!
+    ;
   }
 
   createTaskItem(input: HTMLInputElement) {
     let taskItem = { title: input.value };
     input.value = '';
-    this.http.post(this.url, JSON.stringify(taskItem))
+    this.service.createTaskItems(taskItem)
       .subscribe(response => {
         taskItem['id'] = response;
         this.taskItems.splice(0, 0, taskItem);
@@ -28,15 +25,14 @@ export class TaskItemComponent implements OnInit {
   }
 
   updateTaskItem(taskItem) {
-    this.http.patch(this.url + '/' + taskItem.id, JSON.stringify({ isRead: true }))
-      //this.http.put(this.url + '/' + taskItem.id, JSON.stringify(taskItem))
+    this.service.updateTaskItems(taskItem)
       .subscribe(response => {
         console.log(response);
       })
   }
 
   deleteTaskItem(taskItem) {
-    this.http.delete(this.url + '/' + taskItem.id)
+    this.service.deleteTaskItems(taskItem.id)
       .subscribe(response => {
         let index = this.taskItems.indexOf(taskItem);
         this.taskItems.splice(index, 1);
@@ -44,6 +40,12 @@ export class TaskItemComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.service.getTaskItems()
+      .subscribe(response => {
+        this.taskItems = response;
+      })
   }
-
 }
+
+
+
