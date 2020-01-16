@@ -7,44 +7,66 @@ import { TaskItemService } from '../../services/task-item.service';
   styleUrls: ['./task-item.component.css']
 })
 export class TaskItemComponent implements OnInit {
-  taskItems: any[];
+  taskItems: TaskItem[];
 
-  constructor(private service: TaskItemService) { //separation of concerns -> not directly use http here...
+  constructor(private service: TaskItemService) { //separation of concerns, use service -> not directly use http here...
     // no call of http services in constructor!
     ;
   }
 
   createTaskItem(input: HTMLInputElement) {
-    let taskItem = { title: input.value };
-    input.value = '';
+    let taskItem = { title: input.value }; //assign value to local varibale
+    input.value = ''; //delete input after assessing value
+
     this.service.createTaskItems(taskItem)
-      .subscribe(response => {
-        taskItem['id'] = response;
-        this.taskItems.splice(0, 0, taskItem);
-      })
+      .subscribe(
+        response => {
+          taskItem['id'] = response;
+          this.taskItems.splice(0, 0, taskItem);
+        },
+        error => {
+          //alert function not best, since window will be frozen... -> save log to db
+          alert('An unexpected error occurred.');
+        });
   }
 
   updateTaskItem(taskItem) {
     this.service.updateTaskItems(taskItem)
-      .subscribe(response => {
-        console.log(response);
-      })
+      .subscribe(
+        response => {
+          console.log(response);
+        },
+        error => {
+          alert('An unexpected error occurred.');
+        });
   }
 
   deleteTaskItem(taskItem) {
     this.service.deleteTaskItems(taskItem.id)
-      .subscribe(response => {
-        let index = this.taskItems.indexOf(taskItem);
-        this.taskItems.splice(index, 1);
-      })
+      .subscribe(
+        response => {
+          let index = this.taskItems.indexOf(taskItem);
+          this.taskItems.splice(index, 1);
+        },
+        error => {
+          alert('An unexpected error occurred.');
+        });
   }
 
   ngOnInit() {
     this.service.getTaskItems()
       .subscribe(response => {
         this.taskItems = response;
-      })
+      },
+        error => {
+          alert('An unexpected error occurred.');
+        });
   }
+
+}
+  
+interface TaskItem{
+  title: string;
 }
 
 
