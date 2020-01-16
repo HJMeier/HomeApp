@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TaskItemService } from '../../services/task-item.service';
+import { AppError } from '../../common/app-error';
+import { NotFoundError } from '../../common/not-found-error';
 
 @Component({
   selector: 'app-task-item',
@@ -24,10 +26,16 @@ export class TaskItemComponent implements OnInit {
           taskItem['id'] = response;
           this.taskItems.splice(0, 0, taskItem);
         },
-        error => {
-          //alert function not best, since window will be frozen... -> save log to db
-          alert('An unexpected error occurred.');
-        });
+        (error: Response) => {
+          if (error.status === 400) {
+            //this.form.setErrors(error)
+          }
+            else {
+            //alert function not best, since window will be frozen... -> save log to db
+            alert('An unexpected error occurred.');
+          }
+        }
+      );
   }
 
   updateTaskItem(taskItem) {
@@ -48,8 +56,12 @@ export class TaskItemComponent implements OnInit {
           let index = this.taskItems.indexOf(taskItem);
           this.taskItems.splice(index, 1);
         },
-        error => {
-          alert('An unexpected error occurred.');
+        (error: AppError) => {
+          if (error instanceof NotFoundError)
+            alert('This task has already been deleted')
+          else {
+            alert('An unexpected error occurred.');
+          }
         });
   }
 
