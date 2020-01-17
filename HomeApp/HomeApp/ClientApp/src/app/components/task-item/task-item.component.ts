@@ -17,17 +17,31 @@ export class TaskItemComponent implements OnInit {
     ;
   }
 
+  ngOnInit() {
+    this.service.getAll()
+      .subscribe(response => {
+        this.taskItems = response;
+        //error handled by AppErrorHandler
+      });
+  }
+
   createTaskItem(input: HTMLInputElement) {
     let taskItem = { title: input.value }; //assign value to local varibale
+    //optimistic update already here, will be withdrawn in case of error
+    this.taskItems.splice(0, 0, taskItem);
+
     input.value = ''; //delete input after assessing value
 
-    this.service.createTaskItems(taskItem)
+    this.service.create(taskItem)
       .subscribe(
         response => {
           taskItem['id'] = response;
-          this.taskItems.splice(0, 0, taskItem);
+
+          // pessimistic update here: this.taskItems.splice(0, 0, taskItem);
         },
-        (error: Response) => {
+        (error: AppError) => {
+          this.taskItems.splice(0, 1);
+
           if (error instanceof BadInput) {
             //this.form.setErrors(error.originalError)
           }
@@ -41,7 +55,7 @@ export class TaskItemComponent implements OnInit {
   }
 
   updateTaskItem(taskItem) {
-    this.service.updateTaskItems(taskItem)
+    this.service.update(taskItem)
       .subscribe(
         response => {
           console.log(response);
@@ -49,26 +63,24 @@ export class TaskItemComponent implements OnInit {
   }
 
   deleteTaskItem(taskItem) {
-    this.service.deleteTaskItems(taskItem.id)
+    // optimistic update 
+    let index = this.taskItems.indexOf(taskItem);
+    this.taskItems.splice(index, 1);
+
+    this.service.delete(taskItem.id)
       .subscribe(
         response => {
-          let index = this.taskItems.indexOf(taskItem);
-          this.taskItems.splice(index, 1);
         },
         (error: AppError) => {
+          this.taskItems.splice(index, 0, taskItem);
+
           if (error instanceof NotFoundError)
             alert('This task has already been deleted')
           else throw error;
         });
   }
 
-  ngOnInit() {
-    this.service.getTaskItems()
-      .subscribe(response => {
-        this.taskItems = response;
-        //error handled by AppErrorHandler
-      });
-  }
+  
 
 }
   

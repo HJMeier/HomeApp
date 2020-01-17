@@ -11,6 +11,7 @@ import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { TaskItemComponent } from './components/task-item/task-item.component';
 
+import { DataService } from './services/data-service';
 import { TaskItemService } from './services/task-item.service';
 import { AppErrorHandler } from './common/app-error-handler';
 
@@ -35,7 +36,9 @@ import { AppErrorHandler } from './common/app-error-handler';
       { path: 'task-items', component: TaskItemComponent },
     ])
   ],
-  providers: [TaskItemService,
+  providers: [
+    TaskItemService,
+    DataService,
     { provide: ErrorHandler, useClass: AppErrorHandler } // replaces globally ErrorHandler by AppErrorHandler
   ],
   bootstrap: [AppComponent]
