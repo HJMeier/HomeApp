@@ -29,6 +29,7 @@
 
   <ItemGroup>
     <None Remove="ClientApp\src\app\common\app-error.ts" />
+    <None Remove="ClientApp\src\app\common\bad-input.ts" />
     <None Remove="ClientApp\src\app\common\not-found-error.ts" />
   </ItemGroup>
 
@@ -40,6 +41,7 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\common\app-error.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\common\bad-input.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\common\not-found-error.ts" />
   </ItemGroup>
 

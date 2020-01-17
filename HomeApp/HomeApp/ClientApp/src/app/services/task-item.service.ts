@@ -7,6 +7,7 @@ import { NotFoundError } from '../common/not-found-error';
 import { Observable } from 'rxjs';
 //import 'rxjs/add/operator/catch'; --> old! don't use anymore
 import { catchError } from 'rxjs/operators';
+import { BadInput } from '../common/bad-input';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,12 @@ export class TaskItemService {
 
   createTaskItems(taskItem) {
     return this.http.post(this.url, JSON.stringify(taskItem))
+      .pipe(catchError((error: Response) => {
+        if (error.status === 400)
+          return Observable.throw(new BadInput(error.json()));
+
+        return Observable.throw(new AppError(error.json()));
+      }))
   };
 
   updateTaskItems(taskItem) {

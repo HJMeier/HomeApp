@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TaskItemService } from '../../services/task-item.service';
 import { AppError } from '../../common/app-error';
 import { NotFoundError } from '../../common/not-found-error';
+import { BadInput } from '../../common/bad-input';
 
 @Component({
   selector: 'app-task-item',
@@ -27,8 +28,8 @@ export class TaskItemComponent implements OnInit {
           this.taskItems.splice(0, 0, taskItem);
         },
         (error: Response) => {
-          if (error.status === 400) {
-            //this.form.setErrors(error)
+          if (error instanceof BadInput) {
+            //this.form.setErrors(error.originalError)
           }
             else {
             //alert function not best, since window will be frozen... -> save log to db
