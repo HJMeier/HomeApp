@@ -31,10 +31,11 @@ export class TaskItemComponent implements OnInit {
           if (error instanceof BadInput) {
             //this.form.setErrors(error.originalError)
           }
-            else {
+          else throw error; //hit global error handler
+          /*throw error replaces: {
             //alert function not best, since window will be frozen... -> save log to db
             alert('An unexpected error occurred.');
-          }
+          }*/
         }
       );
   }
@@ -44,9 +45,6 @@ export class TaskItemComponent implements OnInit {
       .subscribe(
         response => {
           console.log(response);
-        },
-        error => {
-          alert('An unexpected error occurred.');
         });
   }
 
@@ -60,9 +58,7 @@ export class TaskItemComponent implements OnInit {
         (error: AppError) => {
           if (error instanceof NotFoundError)
             alert('This task has already been deleted')
-          else {
-            alert('An unexpected error occurred.');
-          }
+          else throw error;
         });
   }
 
@@ -70,10 +66,8 @@ export class TaskItemComponent implements OnInit {
     this.service.getTaskItems()
       .subscribe(response => {
         this.taskItems = response;
-      },
-        error => {
-          alert('An unexpected error occurred.');
-        });
+        //error handled by AppErrorHandler
+      });
   }
 
 }

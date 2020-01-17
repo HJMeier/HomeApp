@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
@@ -12,6 +12,7 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { TaskItemComponent } from './components/task-item/task-item.component';
 
 import { TaskItemService } from './services/task-item.service';
+import { AppErrorHandler } from './common/app-error-handler';
 
 
 @NgModule({
@@ -34,7 +35,9 @@ import { TaskItemService } from './services/task-item.service';
       { path: 'task-items', component: TaskItemComponent },
     ])
   ],
-  providers: [TaskItemService],
+  providers: [TaskItemService,
+    { provide: ErrorHandler, useClass: AppErrorHandler } // replaces globally ErrorHandler by AppErrorHandler
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
