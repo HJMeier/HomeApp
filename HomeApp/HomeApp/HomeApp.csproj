@@ -14,6 +14,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
@@ -24,10 +28,24 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ClientApp\src\app\Components\" />
-    <Folder Include="ClientApp\src\app\Services\" />
+    <None Remove="ClientApp\src\app\common\app-error-handler.ts" />
+    <None Remove="ClientApp\src\app\common\app-error.ts" />
+    <None Remove="ClientApp\src\app\common\bad-input.ts" />
+    <None Remove="ClientApp\src\app\common\not-found-error.ts" />
+    <None Remove="ClientApp\src\app\services\data-service.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Data\" />
     <Folder Include="Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\common\app-error-handler.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\common\app-error.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\common\bad-input.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\common\not-found-error.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\services\data-service.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
