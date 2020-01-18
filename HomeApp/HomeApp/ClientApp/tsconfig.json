@@ -17,5 +17,8 @@
       "es2017",
       "dom"
     ]
+  },
+  "dependencies": {
+    "serialize-javascript": ">=2.1.1"
   }
 }
