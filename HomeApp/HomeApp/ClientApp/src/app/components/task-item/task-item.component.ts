@@ -26,7 +26,14 @@ export class TaskItemComponent implements OnInit {
   }
 
   createTaskItem(input: HTMLInputElement) {
-    let taskItem = { title: input.value }; //assign value to local varibale
+    let taskItem = {
+        title: input.value, 
+        category: "category",
+        description: "description",
+        dueDate: new Date(),
+        doneDate: new Date(),
+        state: 0,
+        series: 0}; //assign value to local varibale
     //optimistic update already here, will be withdrawn in case of error
     this.taskItems.splice(0, 0, taskItem);
 
@@ -81,12 +88,17 @@ export class TaskItemComponent implements OnInit {
         });
   }
 
-  
-
 }
   
-interface TaskItem{
+interface TaskItem {
   title: string;
+  category: string;
+  description: string;
+  dueDate: Date;
+  doneDate: Date;
+  state: number;
+  series: number;
+
 }
 
 

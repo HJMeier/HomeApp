@@ -19,10 +19,10 @@
     <tr *ngFor="let taskItem of taskItems">
       <th scope="row">{{taskItem.id}}</th>
       <td>{{taskItem.title}}</td>
-      <td>single Task</td>
-      <td>{{taskItem.id}}.{{taskItem.id + 1}}.202{{taskItem.id}}</td>
-      <td>open</td>
-      <td>no</td>
+      <td>{{taskItem.category}}</td>
+      <td>{{taskItem.dueDate}}</td>
+      <td>{{taskItem.state}}</td>
+      <td>{{taskItem.series}}</td>
       <td>
         <button (click)="updateTaskItem(taskItem)"
                 class="btn-primary btn-default btn-sm">
