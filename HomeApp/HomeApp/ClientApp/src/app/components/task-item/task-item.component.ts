@@ -40,6 +40,7 @@ export class TaskItemComponent implements OnInit {
           // pessimistic update here: this.taskItems.splice(0, 0, taskItem);
         },
         (error: AppError) => {
+          // withdraw optimistic update in case of error
           this.taskItems.splice(0, 1);
 
           if (error instanceof BadInput) {
