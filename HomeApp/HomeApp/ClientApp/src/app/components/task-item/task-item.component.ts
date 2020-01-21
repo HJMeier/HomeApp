@@ -3,7 +3,7 @@ import { TaskItemService } from '../../services/task-item.service';
 import { AppError } from '../../common/app-error';
 import { NotFoundError } from '../../common/not-found-error';
 import { BadInput } from '../../common/bad-input';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-task-item',
@@ -12,11 +12,15 @@ import { FormGroup, FormControl } from '@angular/forms';
 })
 export class TaskItemComponent implements OnInit {
   form = new FormGroup({
-    'name': new FormControl(),
-    'category': new FormControl(),
-    'description': new FormControl(),
-    'dueDate': new FormControl()
+    'name': new FormControl('', Validators.required),
+    'category': new FormControl('', Validators.required),
+    'description': new FormControl('', Validators.required),
+    'dueDate': new FormControl('', Validators.required)
   });
+
+  get taskName() {
+    return this.form.get('name');
+  }
 
   taskItems: TaskItem[];
 
@@ -34,7 +38,7 @@ export class TaskItemComponent implements OnInit {
   }
 
   createTask() {
-    let taskItem2: TaskItem = {
+    let taskItem3: TaskItem = {
       taskId: 0,
       taskTitle: this.form.value.name,
       category: this.form.value.category,
@@ -46,14 +50,14 @@ export class TaskItemComponent implements OnInit {
     }; //assign value to local varibale
     this.form.reset();
     //optimistic update already here, will be withdrawn in case of error
-    this.taskItems.splice(0, 0, taskItem2);
+    this.taskItems.splice(0, 0, taskItem3);
 
     //taskName.value = ''; //delete input after assessing value
 
-    this.service.create(taskItem2)
+    this.service.create(taskItem3)
       .subscribe(
         response => {
-          taskItem2['Id'] = response;
+          taskItem3['Id'] = response;
 
           // pessimistic update here: this.taskItems.splice(0, 0, taskItem);
         },
