@@ -70,12 +70,12 @@
     </thead>
     <tbody>
       <tr *ngFor="let taskItem of taskItems">
-        <th scope="row">{{taskItem.id}}</th>
-        <td>{{taskItem.title}}</td>
+        <th scope="row">{{taskItem.taskId}}</th>
+        <td>{{taskItem.taskTitle}}</td>
         <td>{{taskItem.category}}</td>
-        <td>{{taskItem.dueDate}}</td>
+        <td>{{taskItem.dueDate| date:'yyyy-MM-dd'}}</td>
         <td>{{taskItem.state}}</td>
-        <td>{{taskItem.series}}</td>
+        <td>{{taskItem.seriesType}}</td>
         <td>
           <button (click)="updateTaskItem(taskItem)"
                   class="btn-primary btn-default btn-sm">
