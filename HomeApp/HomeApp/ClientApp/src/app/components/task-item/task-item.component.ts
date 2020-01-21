@@ -34,25 +34,26 @@ export class TaskItemComponent implements OnInit {
   }
 
   createTask() {
-    let taskItem = {
-      title: this.form.value.name,
+    let taskItem2: TaskItem = {
+      taskId: 0,
+      taskTitle: this.form.value.name,
       category: this.form.value.category,
       description: this.form.value.description,
       dueDate: this.form.value.dueDate,
       doneDate: new Date(),
       state: 0,
-      series: 0
+      seriesType: 0
     }; //assign value to local varibale
     this.form.reset();
     //optimistic update already here, will be withdrawn in case of error
-    this.taskItems.splice(0, 0, taskItem);
+    this.taskItems.splice(0, 0, taskItem2);
 
     //taskName.value = ''; //delete input after assessing value
 
-    this.service.create(taskItem)
+    this.service.create(taskItem2)
       .subscribe(
         response => {
-          taskItem['id'] = response;
+          taskItem2['Id'] = response;
 
           // pessimistic update here: this.taskItems.splice(0, 0, taskItem);
         },
@@ -80,12 +81,12 @@ export class TaskItemComponent implements OnInit {
         });
   }
 
-  deleteTaskItem(taskItem) {
+  deleteTaskItem(taskItem: TaskItem) {
     // optimistic update 
     let index = this.taskItems.indexOf(taskItem);
     this.taskItems.splice(index, 1);
 
-    this.service.delete(taskItem.id)
+    this.service.delete(taskItem.taskId)
       .subscribe(
         response => {
         },
@@ -101,14 +102,14 @@ export class TaskItemComponent implements OnInit {
 }
   
 interface TaskItem {
-  title: string;
+  taskId: number,
+  taskTitle: string;
   category: string;
   description: string;
   dueDate: Date;
   doneDate: Date;
   state: number;
-  series: number;
-
+  seriesType: number;
 }
 
 

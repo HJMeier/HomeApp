@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpRequest, HttpHeaders, HttpParams } from '@angular/common/http';
 import { AppError } from '../common/app-error';
 import { NotFoundError } from '../common/not-found-error';
 import { BadInput } from '../common/bad-input';
@@ -8,6 +8,7 @@ import { BadInput } from '../common/bad-input';
 import { Observable } from 'rxjs';
 //import 'rxjs/add/operator/catch'; --> old! don't use anymore
 import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 
 @Injectable({
@@ -23,7 +24,11 @@ export class DataService {
   };
 
   create(resource) {
-    return this.http.post(this.url, JSON.stringify(resource))
+    //define options used in http.post method -> make sure type is recognized as json (otherwhise theremay be alarm about wrong media type)
+    const options = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    }
+    return this.http.post(this.url, JSON.stringify(resource), options)
       .pipe(catchError(this.handleError))
   };
 
@@ -43,12 +48,15 @@ export class DataService {
   private handleError(error: Response) {
 
     if (error.status === 400)
-      return Observable.throw(new BadInput(error.json()));
+      //return Observable.throw(new BadInput(error));
+      return throwError(new BadInput(error));
 
     if (error.status === 404)
-      return Observable.throw(new NotFoundError());
+      //return Observable.throw(new NotFoundError());
+      return throwError(new NotFoundError());
 
-    return Observable.throw(new AppError(error));
+    //return Observable.throw(new AppError(error));
+    return throwError(new AppError(error));
   }
 }
 
