@@ -23,6 +23,7 @@ export class TaskItemComponent implements OnInit {
   }
 
   taskItems: TaskItem[];
+  //taskItems: any;
 
   constructor(private service: TaskItemService) { //separation of concerns, use service -> not directly use http here...
     // no call of http services in constructor!
@@ -38,7 +39,7 @@ export class TaskItemComponent implements OnInit {
   }
 
   createTask() {
-    let taskItem3: TaskItem = {
+    let taskItem7: TaskItem = {
       taskId: 0,
       taskTitle: this.form.value.name,
       category: this.form.value.category,
@@ -50,14 +51,14 @@ export class TaskItemComponent implements OnInit {
     }; //assign value to local varibale
     this.form.reset();
     //optimistic update already here, will be withdrawn in case of error
-    this.taskItems.splice(0, 0, taskItem3);
+    this.taskItems.splice(0, 0, taskItem7);
 
     //taskName.value = ''; //delete input after assessing value
 
-    this.service.create(taskItem3)
+    this.service.create(taskItem7)
       .subscribe(
         response => {
-          taskItem3['Id'] = response;
+          taskItem7['Id'] = response;
 
           // pessimistic update here: this.taskItems.splice(0, 0, taskItem);
         },
