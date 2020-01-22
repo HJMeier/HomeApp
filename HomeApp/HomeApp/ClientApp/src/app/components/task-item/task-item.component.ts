@@ -18,9 +18,8 @@ export class TaskItemComponent implements OnInit {
     'dueDate': new FormControl('', Validators.required)
   });
 
-  get taskName() {
-    return this.form.get('name');
-  }
+  get taskName() { return this.form.get('name'); }
+    
 
   taskItems: TaskItem[];
   //taskItems: any;
@@ -39,7 +38,7 @@ export class TaskItemComponent implements OnInit {
   }
 
   createTask() {
-    let taskItem7: TaskItem = {
+    let taskItem8: TaskItem = {
       taskId: 0,
       taskTitle: this.form.value.name,
       category: this.form.value.category,
@@ -51,14 +50,14 @@ export class TaskItemComponent implements OnInit {
     }; //assign value to local varibale
     this.form.reset();
     //optimistic update already here, will be withdrawn in case of error
-    this.taskItems.splice(0, 0, taskItem7);
+    this.taskItems.splice(0, 0, taskItem8);
 
     //taskName.value = ''; //delete input after assessing value
 
-    this.service.create(taskItem7)
+    this.service.create(taskItem8)
       .subscribe(
         response => {
-          taskItem7['Id'] = response;
+          taskItem8['Id'] = response;
 
           // pessimistic update here: this.taskItems.splice(0, 0, taskItem);
         },
