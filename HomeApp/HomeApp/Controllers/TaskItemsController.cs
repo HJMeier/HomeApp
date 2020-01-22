@@ -28,7 +28,7 @@ namespace HomeApp.Controllers
         [HttpGet]
         public IEnumerable<TaskItem> GetTaskItem()
         {
-            return _context.TaskItem.OrderByDescending(p => p.TaskId);
+            return _context.TaskItem.OrderBy(p => p.DueDate);
         }
 
         // GET: api/TaskItem/5
