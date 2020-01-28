@@ -38,7 +38,7 @@ export class TaskItemComponent implements OnInit {
   }
 
   createTask() {
-    let taskItem13: TaskItem = {
+    let taskItem14: TaskItem = {
       taskId: 0,
       taskTitle: this.form.value.name,
       category: this.form.value.category,
@@ -50,14 +50,14 @@ export class TaskItemComponent implements OnInit {
     }; //assign value to local varibale
     this.form.reset();
     //optimistic update already here, will be withdrawn in case of error
-    this.taskItems.splice(0, 0, taskItem13);
+    this.taskItems.splice(0, 0, taskItem14);
 
     //taskName.value = ''; //delete input after assessing value
 
-    this.service.create(taskItem13)
+    this.service.create(taskItem14)
       .subscribe(
         response => {
-          taskItem13['Id'] = response;
+          taskItem14['Id'] = response;
 
           // pessimistic update here: this.taskItems.splice(0, 0, taskItem);
         },
