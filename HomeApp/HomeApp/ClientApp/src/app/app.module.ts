@@ -12,13 +12,15 @@ import { TaskItemComponent } from './components/task-item/task-item.component';
 import { DataService } from './services/data-service';
 import { TaskItemService } from './services/task-item.service';
 import { AppErrorHandler } from './common/app-error-handler';
+import { TaskStateComponent } from './components/task-state/task-state.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    TaskItemComponent
+    TaskItemComponent,
+    TaskStateComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

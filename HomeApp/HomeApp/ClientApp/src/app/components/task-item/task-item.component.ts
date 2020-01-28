@@ -38,7 +38,7 @@ export class TaskItemComponent implements OnInit {
   }
 
   createTask() {
-    let taskItem10: TaskItem = {
+    let taskItem13: TaskItem = {
       taskId: 0,
       taskTitle: this.form.value.name,
       category: this.form.value.category,
@@ -50,14 +50,14 @@ export class TaskItemComponent implements OnInit {
     }; //assign value to local varibale
     this.form.reset();
     //optimistic update already here, will be withdrawn in case of error
-    this.taskItems.splice(0, 0, taskItem10);
+    this.taskItems.splice(0, 0, taskItem13);
 
     //taskName.value = ''; //delete input after assessing value
 
-    this.service.create(taskItem10)
+    this.service.create(taskItem13)
       .subscribe(
         response => {
-          taskItem10['Id'] = response;
+          taskItem13['Id'] = response;
 
           // pessimistic update here: this.taskItems.splice(0, 0, taskItem);
         },
@@ -77,8 +77,8 @@ export class TaskItemComponent implements OnInit {
       );
   }
 
-  updateTaskItem(taskItem) {
-    this.service.update(taskItem)
+  updateTaskItem(taskItem: TaskItem) {
+    this.service.update(taskItem, taskItem.taskId)
       .subscribe(
         response => {
           console.log(response);
@@ -103,6 +103,11 @@ export class TaskItemComponent implements OnInit {
         });
   }
 
+  onStateClick(taskItem: TaskItem) {
+    if (taskItem.state == 0) { taskItem.state = 1; }
+    this.updateTaskItem(taskItem);
+    console.log("task done");
+  }
 }
   
 interface TaskItem {

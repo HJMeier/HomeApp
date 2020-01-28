@@ -32,10 +32,15 @@ export class DataService {
       .pipe(catchError(this.handleError))
   };
 
-  update(resource) {
-    return this.http.patch(this.url + '/' + resource.id, JSON.stringify({ isRead: true }))
+  update(resource, id) {
+    //define options used in http.post method -> make sure type is recognized as json (otherwhise theremay be alarm about wrong media type)
+    const options = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    }
+    /*return this.http.patch(this.url + '/' + resource.id, JSON.stringify({ resource: 1 }))
+      .pipe(catchError(this.handleError))*/
+    return this.http.put(this.url + '/' + id, JSON.stringify(resource), options)
       .pipe(catchError(this.handleError))
-    //this.http.put(this.url + '/' + taskItem.id, JSON.stringify(taskItem))
   };
 
   delete(id) {
