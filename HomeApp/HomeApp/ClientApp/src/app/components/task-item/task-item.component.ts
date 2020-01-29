@@ -38,26 +38,26 @@ export class TaskItemComponent implements OnInit {
   }
 
   createTask() {
-    let taskItem14: TaskItem = {
+    let taskItem15: TaskItem = {
       taskId: 0,
       taskTitle: this.form.value.name,
       category: this.form.value.category,
       description: this.form.value.description,
       dueDate: this.form.value.dueDate,
-      doneDate: new Date(),
+      doneDate: new Date(0),
       state: 0,
       seriesType: 0
     }; //assign value to local varibale
     this.form.reset();
     //optimistic update already here, will be withdrawn in case of error
-    this.taskItems.splice(0, 0, taskItem14);
+    this.taskItems.splice(0, 0, taskItem15);
 
     //taskName.value = ''; //delete input after assessing value
 
-    this.service.create(taskItem14)
+    this.service.create(taskItem15)
       .subscribe(
         response => {
-          taskItem14['Id'] = response;
+          taskItem15['Id'] = response;
 
           // pessimistic update here: this.taskItems.splice(0, 0, taskItem);
         },
@@ -104,7 +104,11 @@ export class TaskItemComponent implements OnInit {
   }
 
   onStateClick(taskItem: TaskItem) {
-    if (taskItem.state == 0) { taskItem.state = 1; }
+    if (taskItem.state == 0) {
+      taskItem.state = 1;
+      taskItem.doneDate = new Date();
+    };
+
     this.updateTaskItem(taskItem);
     console.log("task done");
   }
